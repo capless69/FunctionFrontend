@@ -14,6 +14,8 @@ This is a basic ATM contract built using Solidity, which simulates an ATM functi
   - [withdraw](#withdraw)
 - [Events](#events)
 - [Error Handling](#error-handling)
+- [Authors](#authors)
+- [License](#license)
 
 ## Overview
 
@@ -81,4 +83,8 @@ The contract also includes custom error handling for cases when there are insuff
 - **InsufficientBalance(uint256 balance, uint256 withdrawAmount)**: This custom error is thrown when the owner attempts to withdraw more than the available balance in the contract. It provides both the current balance and the requested withdrawal amount.
 """
 ## Authors
+Metacrafter Caps
 
+
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
