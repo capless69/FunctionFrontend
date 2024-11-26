@@ -1,6 +1,3 @@
-# Modifying the README content to reference Gitpod instead of Remix
-
-modified_readme_content = """
 # Ethereum ATM
 
 This is a basic ATM contract built using Solidity, which simulates an ATM functionality with deposit and withdrawal features. The contract allows the owner to deposit and withdraw funds from the contract, ensuring proper balance management and security.
