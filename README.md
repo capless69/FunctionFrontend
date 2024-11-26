@@ -80,4 +80,5 @@ The contract also includes custom error handling for cases when there are insuff
 
 - **InsufficientBalance(uint256 balance, uint256 withdrawAmount)**: This custom error is thrown when the owner attempts to withdraw more than the available balance in the contract. It provides both the current balance and the requested withdrawal amount.
 """
+## Authors
 
