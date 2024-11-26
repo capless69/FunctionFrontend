@@ -81,9 +81,3 @@ The contract also includes custom error handling for cases when there are insuff
 - **InsufficientBalance(uint256 balance, uint256 withdrawAmount)**: This custom error is thrown when the owner attempts to withdraw more than the available balance in the contract. It provides both the current balance and the requested withdrawal amount.
 """
 
-# Saving the modified content to a new README.md file
-modified_readme_file_path = "/mnt/data/Solidity_ATM_Contract_README_Modified.md"
-with open(modified_readme_file_path, "w") as file:
-    file.write(modified_readme_content)
-
-modified_readme_file_path
