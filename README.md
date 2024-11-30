@@ -1,54 +1,87 @@
-# Smart Contract Management - ETH + AVAX
+# Smart Contract Management
 
-This is my 4th project for metacrafters.
+This is a basic ATM contract built using Solidity, which simulates an ATM functionality with deposit and withdrawal features. The contract allows the owner to deposit and withdraw funds from the contract, ensuring proper balance management and security.
 
-## Description
+## Table of Contents
 
-The 4th project for Metacrafters consists of these 2 functionalities:
-1. Smart contract has at least two functions
-2. Value of the functions from the smart contract are visible on the frontend of the application
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Deployment](#deployment)
+- [Functions](#functions)
+  - [getBalance](#getbalance)
+  - [deposit](#deposit)
+  - [withdraw](#withdraw)
+- [Events](#events)
+- [Error Handling](#error-handling)
 
-The skeleton code for this project can be found in through this github link: https://github.com/MetacrafterChris/SCM-Starter
+## Overview
 
-## Getting Started
+This smart contract is designed to allow the contract owner to deposit and withdraw funds. It includes functions for managing the balance and ensures that only the owner can perform the deposit and withdrawal actions. 
 
-### Installing
+The contract also includes custom error handling for cases when there are insufficient funds for withdrawal.
 
-* You can clone the repository using the ```git clone <link to repository>``` command through your terminal.
-* You can also clone it through github desktop by clicking the down arrow button beside the code button and selecting open with github desktop
+## Features
 
-### Executing program
+- **Deposit Functionality**: The contract owner can deposit Ether into the contract, increasing the balance.
+- **Withdraw Functionality**: The contract owner can withdraw Ether from the contract, provided there are sufficient funds.
+- **Balance Management**: The contract maintains a balance of the deposited funds and allows the owner to check the balance at any time.
+- **Event Logging**: Both deposit and withdrawal actions are logged via events.
+- **Error Handling**: Custom error handling is used to indicate when there are insufficient funds to withdraw.
 
-* Inside the project directory, in the terminal type: ```npm i```
-* Open two additional terminals in your VS code
-* In the second terminal type: ```npx hardhat node```
-* In the third terminal, type: ```npx hardhat run --network localhost scripts/deploy.js```
-* Back in the first terminal, type ```npm run dev``` to launch the front-end.
-* Install the metamask extension in your web browser
-* Add a network manually in your metamask with these fields
-  - Name: (can be anything you would like)
-  - RPC URL: http://127.0.0.1:8545/
-  - Chain ID: 31337
-  - Currency Symbol: ETH
-* Click save
-* Switch to your created network
-* Go back to the terminal where you entered ```npx hardhat node``` and copy the private key of Account 0
-* Import the account to Metamask
+## Requirements
 
-After executing these steps you will now be able to use the program by using the link given after your npm run dev command. It should look something like this
-![image](https://github.com/LimyuA/Smart-Contract-Management---ETH-AVAX/assets/92149293/d1e2fa84-f8d8-42e3-8258-97843d5fb3de)
-Open the http://localhost:3000 link using your web browser and from there you can now use the Metacrafters ATM!
+- **Solidity Version**: ^0.8.9
+- **Ethereum Blockchain**: Ethereum compatible networks (e.g., Ethereum, Binance Smart Chain, etc.)
+- **MetaMask/Wallet**: For interacting with the deployed contract
 
-## Help
+## Deployment
 
-Be sure to use Account 0 as it is the owner </br>
-If you encounter an error where your nonce is too high, go to your Metamask, select settings->advanced and clear activity tab data. This error occurs when you use your account then close the application, then use the account again.
+1. Open Gitpod.
+2. Create a new file and paste the contract code.
+3. Compile the contract using the Solidity compiler (version ^0.8.9).
+4. Deploy the contract by providing an initial balance as a parameter in the deployment constructor.
+5. After deployment, you can interact with the contract using Remix's interface, or you can interact using Web3.js or ethers.js.
+
+## Functions
+
+### `getBalance()`
+
+- **Description**: Returns the current balance of the contract.
+- **Visibility**: `public`
+- **Returns**: `uint256` - the current balance of the contract.
+
+### `deposit(uint256 _amount)`
+
+- **Description**: Allows the contract owner to deposit funds into the contract.
+- **Visibility**: `public`
+- **Parameters**: 
+  - `_amount` (uint256): The amount of Ether to deposit into the contract.
+- **Modifier**: Only the owner can call this function.
+- **Events**: Emits a `Deposit` event.
+
+### `withdraw(uint256 _withdrawAmount)`
+
+- **Description**: Allows the contract owner to withdraw funds from the contract.
+- **Visibility**: `public`
+- **Parameters**: 
+  - `_withdrawAmount` (uint256): The amount of Ether to withdraw from the contract.
+- **Modifier**: Only the owner can call this function.
+- **Error Handling**: If there are insufficient funds, the transaction is reverted with a custom error (`InsufficientBalance`).
+- **Events**: Emits a `Withdraw` event.
+
+## Events
+
+- **Deposit(uint256 amount)**: This event is emitted whenever the owner deposits funds into the contract. It logs the deposit amount.
+- **Withdraw(uint256 amount)**: This event is emitted whenever the owner withdraws funds from the contract. It logs the withdrawn amount.
+
+## Error Handling
+
+- **InsufficientBalance(uint256 balance, uint256 withdrawAmount)**: This custom error is thrown when the owner attempts to withdraw more than the available balance in the contract. It provides both the current balance and the requested withdrawal amount.
+"""
 
 ## Authors
-
-Alan Gabriel Limyu (limyualan@gmail.com)
-
+Metacrafter Caps
 
 ## License
-
-This project is licensed under the Alan Gabriel Limyu License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the LICENSE.md file for details.
