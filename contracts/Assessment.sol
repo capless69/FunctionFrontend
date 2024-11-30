@@ -3,20 +3,15 @@ pragma solidity ^0.8.9;
 
 // Contract to simulate a basic ATM with deposit and withdraw functionality
 contract Assessment {
-    
-    address payable public owner;
-    
-    
-    uint256 public balance;
+    address payable public owner; // Owner of the contract
+    uint256 public balance;       // Contract balance
 
-    
+    // Events for deposit and withdraw operations
     event Deposit(uint256 amount);
-
-    
     event Withdraw(uint256 amount);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     // Constructor to set the owner and initial balance upon deployment
-    // 'initBalance' is passed as a parameter for initial contract balance
     constructor(uint initBalance) payable {
         owner = payable(msg.sender);  // Set the deployer as the owner
         balance = initBalance;        // Set the initial balance
@@ -24,24 +19,19 @@ contract Assessment {
 
     // Function to get the current balance of the contract
     function getBalance() public view returns (uint256) {
-        return balance;  
+        return balance;
     }
 
     // Deposit function to add funds to the contract
-    // Only the owner can deposit funds
     function deposit(uint256 _amount) public payable {
         uint _previousBalance = balance; 
 
-        // Check if the sender is the owner of the contract
         require(msg.sender == owner, "You are not the owner of this account");
 
-        // Increase the balance with the deposit amount
         balance += _amount;
 
-        // Assert that the balance has correctly increased
         assert(balance == _previousBalance + _amount);
 
-        // Emit a Deposit event with the deposited amount
         emit Deposit(_amount);
     }
 
@@ -49,29 +39,67 @@ contract Assessment {
     error InsufficientBalance(uint256 balance, uint256 withdrawAmount);
 
     // Withdraw function to remove funds from the contract
-    // Only the owner can withdraw funds
     function withdraw(uint256 _withdrawAmount) public {
-        // Ensure the sender is the owner of the contract
         require(msg.sender == owner, "You are not the owner of this account");
 
-        uint _previousBalance = balance; // Save previous balance for validation
+        uint _previousBalance = balance; 
 
-        // Check if there are sufficient funds to withdraw
         if (balance < _withdrawAmount) {
-            // Revert the transaction with a custom error if funds are insufficient
             revert InsufficientBalance({
                 balance: balance,
                 withdrawAmount: _withdrawAmount
             });
         }
 
-        // Decrease the balance by the withdrawn amount
         balance -= _withdrawAmount;
 
-        // Assert that the balance is correctly updated
         assert(balance == (_previousBalance - _withdrawAmount));
 
-        // Emit a Withdraw event with the withdrawn amount
         emit Withdraw(_withdrawAmount);
+    }
+
+    // Function to transfer ownership to a new owner
+    function transferOwnership(address payable newOwner) public {
+        require(msg.sender == owner, "Only the owner can transfer ownership");
+        require(newOwner != address(0), "New owner address cannot be zero address");
+
+        emit OwnershipTransferred(owner, newOwner);
+
+        owner = newOwner;
+    }
+
+    // Function to withdraw all funds from the contract
+    function withdrawAll() public {
+        require(msg.sender == owner, "You are not the owner of this account");
+
+        uint _previousBalance = balance;
+
+        if (balance == 0) {
+            revert InsufficientBalance({
+                balance: balance,
+                withdrawAmount: 0
+            });
+        }
+
+        uint256 _withdrawAmount = balance;
+        balance = 0;
+
+        assert(balance == 0);
+
+        emit Withdraw(_withdrawAmount);
+    }
+
+    // Function to allow anyone to deposit to the contract (optional)
+    function publicDeposit() public payable {
+        require(msg.value > 0, "Deposit amount must be greater than zero");
+
+        balance += msg.value;
+
+        emit Deposit(msg.value);
+    }
+
+    // Function to get the owner's address
+    function getOwner() public view returns (address) {
+        return owner;
     }
 }
